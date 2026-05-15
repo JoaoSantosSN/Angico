@@ -6,7 +6,7 @@ $erro = ""; // Variável para guardar mensagens de erro
 
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cnpj'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     // Pega os dados do formulário e ajuda a evitar erros de aspas na SQL
     $cnpj = mysqli_real_escape_string($conexao, $_POST["cnpj"]);
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cnpj'])) {
         $_SESSION['for_cod'] = $dados_fornecedor['for_cod'];
         
         // Redireciona o fornecedor para o site do estoque
-        header("Location: EstoqueAngico.php");
+        header("Location: /painel/estoque.php");
         exit();
     } else {
         // Se não encontrou (0 linhas), email ou senha estão errados
@@ -67,8 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cnpj'])) {
             <input type="text" name="cnpj" placeholder="00.000.000/0001-00" required>
             <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Entrar</button>
-            <a href="Cadastro-fornecedor.php">Ainda não é cliente? Cadastre-se</a>
-            <a href="SiteAngico2.html" class="back-link">Voltar para a Loja</a>
+            <a href="/auth/cadastro/Cadastro-fornecedor.php">Ainda não é cliente? Cadastre-se</a>
+            <a href="/index.html" class="back-link">Voltar para a Loja</a>
         </form>
     </div>
 </body>

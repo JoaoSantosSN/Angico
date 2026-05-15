@@ -1,5 +1,5 @@
 <?php
-include "ConectaSQL.php";
+include "C:\wamp64\www\ConectaSQL.php";
 
 // 1. Cadastrar Novo Produto
 if (isset($_POST['btn-cadastrar'])) {

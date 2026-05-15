@@ -165,7 +165,7 @@
             </thead>
             <tbody>
                 <?php
-                include "ConectaSQL.php";
+                include "C:\wamp64\www\ConectaSQL.php";
 
                 // Lógica de Exclusão
                 if (isset($_GET['excluir'])) {

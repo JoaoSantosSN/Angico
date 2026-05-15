@@ -41,7 +41,7 @@
         </thead>
         <tbody>
             <?php
-             include "ConectaSQL.php";
+             include "C:\wamp64\www\ConectaSQL.php";
 
 
             if (isset($_GET['excluir'])) {

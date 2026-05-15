@@ -6,7 +6,7 @@ $erro = ""; // Variável para guardar mensagens de erro
 
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     // Pega os dados do formulário e ajuda a evitar erros de aspas na SQL
     $email = mysqli_real_escape_string($conexao, $_POST["email"]);
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
         $_SESSION['cli_cod'] = $dados_cliente['cli_cod'];
 
         // Redireciona o cliente para o site principal do Angico
-        header("Location: SiteAngico.php");
+        header("Location: /SiteAngico.php");
         exit();
     } else {
         // Se não encontrou (0 linhas), email ou senha estão errados
@@ -154,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Entrar</button>
-            <a href="Cadastro-cliente.php">Ainda não é cliente? Cadastre-se</a>
-            <a href="SiteAngico2.html" class="back-link">Voltar para a Loja</a>
+            <a href="/auth/cadastro/Cadastro-cliente.php">Ainda não é cliente? Cadastre-se</a>
+            <a href="/index.html" class="back-link">Voltar para a Loja</a>
         </form>
     </div>
 </body>

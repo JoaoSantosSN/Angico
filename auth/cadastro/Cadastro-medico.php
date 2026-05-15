@@ -1,7 +1,7 @@
 <?php
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     $nome = $_POST["nome"];
     $crmv = $_POST["crmv"];
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
 
     if ($inserir) {
         // Redireciona o médico para o Painel dele
-        header("Location: PainelMedico.php");
+        header("Location: /painel/gestao-medico.php");
         exit();
     }
 }
@@ -43,10 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
                 <input type="text" name="crmv" placeholder="CRMV" required>
                 <input type="password" name="senha" placeholder="Senha" required>
                 <button type="submit">Cadastrar</button>
-                <a href="Login-medico.php">Já Tem Conta Conosco? Clique Aqui</a>
+                <a href="/auth/login/Login-medico.php">Já Tem Conta Conosco? Clique Aqui</a>
                 <br>
                 <br>
-                <a href="SiteAngico2.php" style="color: #6B7280;">Voltar ao Início</a>
+                <a href="/index.html" style="color: #6B7280;">Voltar ao Início</a>
             </form>
         </div>
     </body>

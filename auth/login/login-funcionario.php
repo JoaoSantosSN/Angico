@@ -5,7 +5,7 @@
 
     // Verifica se o formulário foi enviado
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cpfLogin'])) {
-        include "ConectaSQL.php";
+        include "C:\wamp64\www\ConectaSQL.php";
 
     // Pega os dados do formulário e ajuda a evitar erros de aspas na SQL
         $cpf = mysqli_real_escape_string($conexao, $_POST["cpfLogin"]);
@@ -22,10 +22,10 @@
         // Guarda os dados do funcionário na sessão para usar em outras páginas do site
         $_SESSION['logado'] = true;
         $_SESSION['fun_cpf'] = $dados_funcionario['fun_cpf'];
-        $_SESSION['fun_cod'] = $dados_funcionario['cli_cod'];
+        $_SESSION['fun_cod'] = $dados_funcionario['fun_cod']; //troquei do cli_cod para fun_cod
         
         // Redireciona o funcionário para o site de gestão de cliente
-        header("Location: gestao-cliente.php");
+        header("Location: /painel/gestao-funcionario.php");
         exit();
     }else {
         // Se não encontrou (0 linhas), CPF ou senha estão errados
@@ -139,8 +139,8 @@
                 <input type="password" id="senha" name="senhaFunc" placeholder="••••••••" required>
             </div>
             <button type="submit" class="btn-entrar">Entrar no Sistema</button>
-            <a href="Cadastro-funcionario.php" class="back">Não tem cadastro? Cadastre-se aqui</a>
-            <a href="SiteAngico2.html" class="back-link">Voltar para a Loja</a>
+            <a href="/auth/cadastro/Cadastro-funcionario.php" class="back">Não tem cadastro? Cadastre-se aqui</a>
+            <a href="/index.html" class="back-link">Voltar para a Loja</a>
         </form>
     </div>
 </body>

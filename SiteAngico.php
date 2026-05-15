@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('ConectaSQL.php');
+include_once('C:\wamp64\www\ConectaSQL.php');
 
 $mensagem_php = "";
 
@@ -303,9 +303,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['btn_agendar'])) {
             <?php if (isset($_SESSION['cli_nome'])): ?>
                 <span style="color: var(--primary); font-weight: 600;">Olá,
                     <?php echo htmlspecialchars($_SESSION['cli_nome']); ?>!</span>
-                <a href="logout.php" style="color: #e74c3c;">Sair</a>
+                <a href="/auth/logout.php" style="color: #e74c3c;">Sair</a>
             <?php else: ?>
-                <a href="login-cliente.php">Entrar</a>
+                <a href="/auth/login/login-cliente.php">Entrar</a>
             <?php endif; ?>
             <a href="#agenda">Agenda</a>
             <a href="#produtos">Produtos</a>

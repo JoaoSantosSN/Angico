@@ -6,7 +6,7 @@ $erro = ""; // Variável para guardar mensagens de erro
 
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['crmv'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     // Pega os dados do formulário e ajuda a evitar erros de aspas na SQL
     $crmv = mysqli_real_escape_string($conexao, $_POST["crmv"]);
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['crmv'])) {
         $_SESSION['med_crmv'] = $dados_medico['med_crmv'];
         $_SESSION['med_cod'] = $dados_medico['med_cod'];
         
-        header("Location: PainelMedico.php");
+        header("Location: /painel/gestao-medico.php");
         exit();
     } else {
         $erro = "CRMV ou senha incorretos!";
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['crmv'])) {
         input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Poppins', sans-serif; outline: none; }
         button { width: 100%; background: #4cd956; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif; }
         button:hover { opacity: 0.8; }
-        a { color: #00C896; text-decoration: none; font-size: 14px; font-weight: 500; }
+        a { color: #00C896; text-decoration: none; font-size: 14px; font-weight： 500; }
         .msg-erro { background: #ffe6e6; color: #cc0000; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 14px; }
     </style>
 </head>
@@ -59,8 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['crmv'])) {
             <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
-        <br><a href="Cadastro-medico.php">Ainda não tem conta? Cadastre-se</a><br><br>
-        <a href="SiteAngico2.php" style="color: #6B7280;">Voltar ao Início</a>
+        <br><a href="/auth/cadastro/Cadastro-medico.php">Ainda não tem conta? Cadastre-se</a><br><br>
+        <a href="/index.html" style="color: #6B7280;">Voltar ao Início</a>
     </div>
 </body>
 </html>

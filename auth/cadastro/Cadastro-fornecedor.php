@@ -1,7 +1,7 @@
 <?php
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['razaoS'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     $razao = $_POST["razaoS"];
     $cnpj = $_POST["cnpj"];
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['razaoS'])) {
 
     if ($inserir) {
         // Redireciona o fornecedor para a página de estoque
-        header("Location: EstoqueAngico.php");
+        header("Location: C:\wamp64\www\EstoqueAngico.php");
         exit();
     }
 }
@@ -58,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['razaoS'])) {
                 <label for="whats">WhatsApp</label><input type="tel" name="whatsApp" id="whats" placeholder="(11) 99999-9999" required>
                 <label for="senha1">Senha</label><input type="password" name="senha" id="senha1" placeholder="Mínimo 6 caracteres" minlength="6" required>
                 <button type="submit">Cadastrar</button>
-                <a href="Login-fornecedor.php">Já Tem Conta Conosco? Fazer Login</a>
-                <a href="SiteAngico2.html" class="back">Voltar para a Loja</a>
+                <a href="C:\wamp64\www\auth\login\Login-fornecedor.php">Já Tem Conta Conosco? Fazer Login</a>
+                <a href="C:\wamp64\www\index.html" class="back">Voltar para a Loja</a>
             </form>
         </div>
     </body>

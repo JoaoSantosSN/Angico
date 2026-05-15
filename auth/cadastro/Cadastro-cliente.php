@@ -2,7 +2,7 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     // Proteção básica contra aspas que quebram o SQL
     $nome = mysqli_real_escape_string($conexao, $_POST["nome"]);
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
         $_SESSION['cli_email'] = $email;
         $_SESSION['cli_cod'] = mysqli_insert_id($conexao); // Pega o ID automático do banco
 
-        header("Location: SiteAngico.php");
+        header("Location: /SiteAngico.php");
         exit();
     } else {
         echo "Erro ao cadastrar: " . mysqli_error($conexao);
@@ -114,12 +114,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
     <div class="container">
         <h1>🐾Angico-PetShop</h1>
         <h2>Crie Sua Conta Como Nosso Cliente</h2>
-        <form action="Cadastro-cliente.php" method="POST" class="form-group">
+        <form action="/auth/cadastro/Cadastro-cliente.php" method="POST" class="form-group">
             <input type="text" name="nome" placeholder="Nome" required>
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Cadastrar</button>
-            <a href="Login-Cliente.php">Já Tem Conta Conosco? Clique Aqui</a>
+            <a href="/auth/login/Login-Cliente.php">Já Tem Conta Conosco? Clique Aqui</a>
         </form>
     </div>
 </body>

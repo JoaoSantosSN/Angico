@@ -9,6 +9,6 @@ session_unset();
 session_destroy();
 
 // Redireciona de volta para a tela inicial do site
-header("Location: SiteAngico2.php");
+header("Location: /index.php");
 exit();
 ?>

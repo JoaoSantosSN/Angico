@@ -23,6 +23,7 @@ session_start();
             --green: #4caf50;
             --vet: #008B8B;
         }
+        html{ scroll-behavior: smooth; scroll-padding-top: 80px; }
 
         body { font-family: 'Poppins', sans-serif; background: #fcf6f7; color: var(--dark); overflow-x: hidden; }
 
@@ -171,25 +172,25 @@ session_start();
             <button class="btn-primary" onclick="addCarrinho('Brinquedo Mordedor', 29.90)">Adicionar</button>
         </div>
         <div class="produto-card">
-            <img src="Shampoo.png" alt="Shampoo">
+            <img src="assets/Shampoo.png" alt="Shampoo">
             <h3>Shampoo Pet</h3>
             <p>R$ 39,90</p>
             <button class="btn-primary" onclick="addCarrinho('Shampoo Pet', 39.90)">Adicionar</button>
         </div>
         <div class="produto-card">
-            <img src="Condicionador.png" alt="Condicionador">
+            <img src="assets/Condicionador.png" alt="Condicionador">
             <h3>Condicionador Pet</h3>
             <p>R$ 29,90</p>
             <button class="btn-primary" onclick="addCarrinho('Condicionador Pet', 29.90)">Adicionar</button>
         </div>
         <div class="produto-card">
-            <img src="AntiPulga.png" alt="Anti-Pulga">
+            <img src="assets/AntiPulga.png" alt="Anti-Pulga">
             <h3>Anti-Pulga</h3>
             <p>R$ 19,90</p>
             <button class="btn-primary" onclick="addCarrinho('Anti-Pulga', 19.90)">Adicionar</button>
         </div>
         <div class="produto-card">
-            <img src="CamaPet.png" alt="Cama Pet">
+            <img src="assets/CamaPet.png" alt="Cama Pet">
             <h3>Cama Pet</h3>
             <p>R$ 59,90</p>
             <button class="btn-primary" onclick="addCarrinho('Cama Pet', 59.90)">Adicionar</button>
@@ -369,22 +370,22 @@ session_start();
         if (acaoAcesso === "Login") {
             // --- REDIRECIONAMENTO DE LOGIN ---
             if (perfil === 'Veterinário') {
-                caminho = "login-medico.php";
+                caminho = "auth/login/login-medico.php";
             } else if (perfil === 'Cliente') {
-                caminho = "login-Cliente.php";
+                caminho = "auth/login/login-Cliente.php";
             } else {
-                caminho = `login-${p}.php`; // login-funcionario.html ou login-fornecedor.html
+                caminho = `auth/login/login-${p}.php`; // login-funcionario.html ou login-fornecedor.html
             }
         } else {
             // --- REDIRECIONAMENTO DE CADASTRO ---
             if (perfil === 'Veterinário') {
                 // login-medico.html já tem a aba de cadastro incluída
-                caminho = "Cadastro-medico.php";
+                caminho = "auth/cadastro/cadastro-medico.php";
             } else if (perfil === 'Cliente') {
-                caminho = "Cadastro-Cliente.php";
+                caminho = "auth/cadastro/cadastro-Cliente.php";
             } else {
                 // Segue o padrão: Cadastro-funcionario.html ou Cadastro-fornecedor.html
-                caminho = `Cadastro-${p}.php`;
+                caminho = `auth/cadastro/Cadastro-${p}.php`;
             }
         }
 

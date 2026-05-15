@@ -37,7 +37,7 @@ $crmvMedico = $_SESSION['med_crmv'];
         .med-info { background: #2d3748; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; }
 
         /* Conteúdo Principal */
-        .main-content { margin-left: 250px; width: calc(100% - 250px); padding: 40px; }
+        .main-content { margin-left: 265px; width: calc(100% - 250px); padding: 40px; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 15px; }
 
         /* Tabela de Consultas */
@@ -69,7 +69,7 @@ $crmvMedico = $_SESSION['med_crmv'];
         <span>CRMV: <?= htmlspecialchars($crmvMedico) ?></span>
     </div>
     <br>
-    <a href="SiteAngico2.php" class="nav-link">🏠 Voltar ao Site</a>
+    <a href="../index.php" class="nav-link">🏠 Voltar ao Site</a>
     <a href="#" class="nav-link">📅 Minha Agenda</a>
     <a href="#" class="nav-link">📝 Prontuários</a>
     <a href="logout.php" class="nav-link" style="margin-top: 50px; color: var(--danger);">🚪 Sair do Painel</a>

@@ -1,7 +1,7 @@
 <?php
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nomeCadastro'])) {
-    include "ConectaSQL.php";
+    include "C:\wamp64\www\ConectaSQL.php";
 
     $nome = $_POST["nomeCadastro"];
     $cpf = $_POST["cpfCadastro"];
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nomeCadastro'])) {
 
     if ($inserir) {
         // Redireciona o funcionário para a gestão de cliente
-        header("Location: gestao-cliente.php");
+        header("Location: C:\wamp64\www\painel\gestao-cliente.php");
         exit();
     }
 }
@@ -47,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nomeCadastro'])) {
         <div class="container">
             <h1>🐾Angico-PetShop</h1>
             <h2>Crie Sua Conta Como Nosso Funcionário</h2>
-            <form action="Cadastro-funcionario.php" method="POST" class="form-group">
+            <form action="C:\wamp64\www\auth\cadastro\Cadastro-funcionario.php" method="POST" class="form-group">
                 <input type="text" name="nomeCadastro" placeholder="Nome" required>
                 <input type="number" name="cpfCadastro" placeholder="CPF(Apenas Números)" minlength="11" maxlength="11" required>
                 <input type="password" name="senhaCadastro" placeholder="Senha" required>
                 <button type="submit">Cadastrar</button>
-                <a href="Login-funcionario.php">Já Tem Conta Conosco? Clique Aqui</a>
-                <a href="SiteAngico2.html" class="back">Voltar para a Loja</a>
+                <a href="C:\wamp64\www\auth\login\Login-funcionario.php">Já Tem Conta Conosco? Clique Aqui</a>
+                <a href="C:\wamp64\www\index.html" class="back">Voltar para a Loja</a>
             </form>
         </div>
     </body>

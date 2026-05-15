@@ -118,7 +118,7 @@
     </div>
 
     <div class="area-botoes">
-        <a href="SiteAngico2.html" class="btn btn-voltar">⬅ Voltar</a>
+        <a href="index.html" class="btn btn-voltar">⬅ Voltar</a>
         <button class="btn btn-imprimir" onclick="window.print()">🖨️ Imprimir Cupom</button>
     </div>
 
