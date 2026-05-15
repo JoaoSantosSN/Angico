@@ -1,6 +1,49 @@
 <?php
 session_start();
+include 'ConectaSQL.php';
 
+$mensagem_php = "";
+
+
+
+// Lógica de Processamento do Agendamento
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['btn_agendar'])) {
+    $dono = $_SESSION['cli_nome'];
+    $pet = mysqli_real_escape_string($conexao, $_POST['pet']);
+    $servico = $_POST['servico'];
+    $data_hora = $_POST['data_hora'];
+    $ts = strtotime($data_hora);
+    $diaSemana = date('w', $ts);
+    $diaMes = date('d-m', $ts);
+
+    $ehFeriado = false;
+    switch ($diaMes) {
+        case '01-01':
+        case '21-04':
+        case '01-05':
+        case '07-09':
+        case '12-10':
+        case '02-11':
+        case '15-11':
+        case '20-11':
+        case '25-12':
+        $ehFeriado = true;
+            break;
+    }
+
+    if ($diaSemana == 0) {
+        $mensagem_php = "<script>alert('❌ O Petshop não abre aos domingos!');</script>";
+    } else if ($ehFeriado) {
+        $mensagem_php = "<script>alert('🚩 Hoje é feriado! Estaremos fechados.');</script>";
+    } else {
+        $sql = "INSERT INTO agendamentos (nome_dono, nome_pet, servico, data_hora) VALUES ('$dono', '$pet', '$servico', '$data_hora')";
+        if (mysqli_query($conexao, $sql)) {
+            $mensagem_php = "<script>alert('✅ Agendamento de $pet realizado com sucesso!');</script>";
+        } else {
+            $mensagem_php = "<script>alert('❌ Erro ao salvar: " . mysqli_error($conexao) . "');</script>";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -99,23 +142,20 @@ session_start();
 
         footer { text-align: center; padding: 40px; color: var(--gray); font-size: 14px; }
         .toast { position: fixed; bottom: 20px; right: 20px; background: var(--secondary); color: white; padding: 12px 25px; border-radius: 10px; display: none; z-index: 1000; }
+        select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        option { padding: 10px; }
     </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <div class="logo">🐾 Angico Petshop</div>
+    <div class="logo">🐾 Angico Petshop - <?php echo $_SESSION['cli_nome']; ?></div>
     <div class="nav-links">
         <a href="#agenda">Agenda</a>
         <a href="#produtos">Produtos</a>
         
-        <span id="auth-links">
-            <a onclick="abrirModalAcesso('Login')">Login</a>
-            <a onclick="abrirModalAcesso('Cadastro')">Cadastrar-se</a>
-        </span>
 
         <span id="user-info">
-            <span id="user-name"></span>
             <a onclick="logout()" class="logout-link">Sair</a>
         </span>
 
@@ -199,15 +239,21 @@ session_start();
 </section>
 
 <div class="modal" id="modalAgenda">
-    <div class="modal-content">
+    <form method="post" action="siteAngico2.php" class="modal-content">
         <h3>Novo Agendamento</h3><br>
+        <input type="text" id="nomePet" placeholder="Nome do pet" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
         <input type="time" id="hora" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-        <input type="text" id="desc" placeholder="Nome do pet e serviço" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+        <select id="servico">
+            <option value="" disabled selected>Selecione o serviço</option>
+            <option value="Banho">Banho</option>
+            <option value="Tosa">Tosa</option>
+            <option value="Consulta Veterinária">Consulta</option>
+        </select>
         <div class="modal-footer">
             <button class="btn-secondary" onclick="fecharAgenda()">Cancelar</button>
             <button class="btn-primary" onclick="salvarAgenda()">Salvar</button>
         </div>
-    </div>
+    </form>
 </div>
 
 <div class="modal" id="modalCarrinho">
@@ -226,44 +272,12 @@ session_start();
     </div>
 </div>
 
-<div class="modal" id="modalAcesso">
-    <div class="modal-content" style="text-align: center;">
-        <h3 id="tituloAcesso" style="margin-bottom: 20px;">Fazer Login como:</h3>
-        <button class="btn-perfil" onclick="executarAcesso('Cliente')">👤 Sou Cliente</button>
-        <button class="btn-perfil" onclick="executarAcesso('Fornecedor')">📦 Sou Fornecedor</button>
-        <button class="btn-perfil" onclick="executarAcesso('Funcionário')">💼 Sou Funcionário</button>
-        <button class="btn-perfil" style="border-color: var(--vet); color: var(--vet);" onclick="executarAcesso('Veterinário')">🩺 Sou Médico Veterinário</button>
-        <div class="modal-footer" style="justify-content: center;">
-            <button class="btn-secondary" onclick="fecharModalAcesso()">Cancelar</button>
-        </div>
-    </div>
-</div>
 
 <footer>© 2026 Angico Petshop - Todos os direitos reservados</footer>
 <div id="toast" class="toast">Produto adicionado! 🐾</div>
 
 <script>
-    /* ===== LÓGICA DE USUÁRIO ===== */
-    function atualizarNavbar() {
-        const usuario = localStorage.getItem('usuarioNome');
-        const linksLogin = document.getElementById('auth-links');
-        const infoUsuario = document.getElementById('user-info');
-        const displayNome = document.getElementById('user-name');
 
-        if (usuario) {
-            linksLogin.style.display = 'none';
-            infoUsuario.style.display = 'flex';
-            displayNome.innerText = "Olá, " + usuario;
-        } else {
-            linksLogin.style.display = 'inline';
-            infoUsuario.style.display = 'none';
-        }
-    }
-
-    function logout() {
-        localStorage.removeItem('usuarioNome');
-        location.reload();
-    }
 
     /* ===== LÓGICA DO CARROSSEL ===== */
     let slideIndex = 0;
@@ -308,11 +322,12 @@ session_start();
     function mudarMes(n) { dataAtual.setMonth(dataAtual.getMonth() + n); renderCalendar(); }
     function fecharAgenda() { document.getElementById('modalAgenda').style.display = 'none'; }
     function salvarAgenda() {
+        const nomePet = document.getElementById('nomePet').value;
         const hora = document.getElementById('hora').value;
-        const desc = document.getElementById('desc').value;
-        if (!hora || !desc) return alert("Preencha os dados!");
+        const servico = document.getElementById('servico').value;
+        if (!nomePet || !hora || !servico) return alert("Preencha os dados!");
         if (!eventos[diaSelecionado]) eventos[diaSelecionado] = [];
-        eventos[diaSelecionado].push({ hora, desc });
+        eventos[diaSelecionado].push({ hora, servico });
         localStorage.setItem('agenda', JSON.stringify(eventos));
         fecharAgenda();
         renderCalendar();
@@ -347,58 +362,12 @@ session_start();
     function cupomfiscal() {
         if (carrinho.length === 0) return alert("Carrinho vazio!");
         localStorage.setItem('dadosCompra', JSON.stringify(carrinho));
-<<<<<<< HEAD
-        window.location.href = "EmissaoFiscal.html";
-=======
         window.location.href = "EmissaoFiscal.php";
->>>>>>> 6813f4d (updating emissao)
-    }
-
-    /* ===== ACESSO E REDIRECIONAMENTO CORRIGIDO ===== */
-    let acaoAcesso = ""; // Armazena se é 'Login' ou 'Cadastro'
-
-    function abrirModalAcesso(acao) {
-        acaoAcesso = acao;
-        document.getElementById('tituloAcesso').innerText = acao === 'Login' ? 'Fazer Login como:' : 'Cadastrar-se como:';
-        document.getElementById('modalAcesso').style.display = 'flex';
-    }
-
-    function fecharModalAcesso() { document.getElementById('modalAcesso').style.display = 'none'; }
-
-    function executarAcesso(perfil) {
-        let caminho = "";
-        
-        // Normaliza o perfil para o nome do ficheiro (ex: Funcionário -> funcionario)
-        let p = perfil.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
-
-        if (acaoAcesso === "Login") {
-            // --- REDIRECIONAMENTO DE LOGIN ---
-            if (perfil === 'Veterinário') {
-                caminho = "auth/login/login-medico.php";
-            } else if (perfil === 'Cliente') {
-                caminho = "auth/login/login-Cliente.php";
-            } else {
-                caminho = `auth/login/login-${p}.php`; // login-funcionario.html ou login-fornecedor.html
-            }
-        } else {
-            // --- REDIRECIONAMENTO DE CADASTRO ---
-            if (perfil === 'Veterinário') {
-                // login-medico.html já tem a aba de cadastro incluída
-                caminho = "auth/cadastro/cadastro-medico.php";
-            } else if (perfil === 'Cliente') {
-                caminho = "auth/cadastro/cadastro-Cliente.php";
-            } else {
-                // Segue o padrão: Cadastro-funcionario.html ou Cadastro-fornecedor.html
-                caminho = `auth/cadastro/Cadastro-${p}.php`;
-            }
-        }
-
-        window.location.href = caminho;
     }
 
     window.addEventListener('load', () => {
         renderCalendar();
-        atualizarNavbar();
+        // atualizarNavbar();
     });
 </script>
 

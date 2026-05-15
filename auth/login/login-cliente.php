@@ -155,7 +155,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
             <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Entrar</button>
             <a href="/auth/cadastro/Cadastro-cliente.php">Ainda não é cliente? Cadastre-se</a>
+<<<<<<< HEAD
             <a href="/index.html" class="back-link">Voltar para a Loja</a>
+=======
+            <a href="/index.php" class="back-link">Voltar para a Loja</a>
+>>>>>>> 6813f4d (updating emissao)
         </form>
     </div>
 </body>

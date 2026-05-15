@@ -118,7 +118,11 @@
     </div>
 
     <div class="area-botoes">
+<<<<<<< HEAD
         <a href="index.html" class="btn btn-voltar">⬅ Voltar</a>
+=======
+        <a href="index.php" class="btn btn-voltar">⬅ Voltar</a>
+>>>>>>> 6813f4d (updating emissao)
         <button class="btn btn-imprimir" onclick="window.print()">🖨️ Imprimir Cupom</button>
     </div>
 
