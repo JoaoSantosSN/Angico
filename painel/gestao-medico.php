@@ -9,6 +9,15 @@ if (!isset($_SESSION['logado_med'])){
     exit();
 }
 
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
+    $id = $_POST["id"];
+    $atualizar = mysqli_query($conexao, "UPDATE agenda SET status = 'Cancelada' WHERE id = '$id'");
+
+    if ($atualizar) {
+        echo "<script>alert('Consulta cancelada com sucesso!');</script>";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -62,7 +71,7 @@ if (!isset($_SESSION['logado_med'])){
 <body>
 
 <div class="sidebar">
-    <h2>🐾 Angico-PetShop</h2>
+    <h2>Angico-PetShop</h2>
     <div class="med-info">
         <strong>Dr(a). <?= $_SESSION['med_nome'] ?></strong><br>
         <span>CRMV: <?= $_SESSION['med_crmv'] ?></span>
@@ -122,19 +131,28 @@ if (!isset($_SESSION['logado_med'])){
                         <td>{$hora}</td>
                         <td>{$data}</td>
                         <td>{$agenda['nome_dono']}</td>
-                        <td><span class='badge " . $agenda['status'] . "'>" . $agenda['status'] . "</span></td>
                         <td>
-                            <a href="/emitirConsulta.php?id=<?= $agenda['id'] ?>" class="btn-action">
-                                Atender
-                            </a>
+                            <span class='badge {$agenda['status']}'>
+                                {$agenda['status']}
+                            </span>
+                        </td>
+                        <td>
+                            <form action='/emitirConsulta.php' method='POST' style='display:inline;'>
+                                <input type='hidden' name='id' value='{$agenda['id']}'>
 
-                            <form action="gestao-medico.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $agenda['id'] ?>">
+                                <button type='submit' class='btn-action'>
+                                    Atender
+                                </button>
+                            </form>
 
-                                <button type="submit"
-                                        class="btn-action"
-                                        onclick="return confirm('Deseja realmente finalizar esta consulta?')">
-                                    Finalizar
+                            <form action='gestao-medico.php' method='POST' style='display:inline;'>
+                                <input type='hidden' name='id' value='{$agenda['id']}'>
+
+                                <button type='submit'
+                                        name='cancelar'
+                                        class='btn-action'
+                                        onclick=\"return confirm('Deseja realmente cancelar esta consulta?')\">
+                                    Cancelar
                                 </button>
                             </form>
                         </td>
@@ -151,75 +169,7 @@ class AppMedico {
     constructor() {
         this.tabela = document.getElementById('listaAgendaMed');
         this.filtro = document.getElementById('filtroData');
-        this.carregarAgenda();
         this.iniciarRelogio();
-    }
-
-    // Pega os dados que o cliente salvou no localStorage do SiteAngico2.php
-    getDados() {
-        return JSON.parse(localStorage.getItem('agenda')) || {};
-    }
-
-    carregarAgenda() {
-        const agenda = this.getDados();
-        const dataSelecionada = this.filtro.value;
-        this.tabela.innerHTML = '';
-
-        // Organiza as datas
-        const datasOrdenadas = Object.keys(agenda).sort();
-
-        datasOrdenadas.forEach(data => {
-            if (dataSelecionada && data !== dataSelecionada) return;
-
-            agenda[data].forEach((servico, index) => {
-                const tr = document.createElement('tr');
-                const dataPT = data.split('-').reverse().join('/');
-                
-                tr.innerHTML = `
-                    <td><strong>${servico.hora}</strong></td>
-                    <td>${dataPT}</td>
-                    <td>${servico.desc}</td>
-                    <td>
-                        <span class="badge ${servico.concluido ? 'status-concluido' : 'status-pendente'}">
-                            ${servico.concluido ? 'Finalizado' : 'Aguardando'}
-                        </span>
-                    </td>
-                    <td>
-                        ${!servico.concluido ? 
-                            `<button class="btn-action btn-finish" onclick="appMed.finalizar('${data}', ${index})">Atender</button>` : 
-                            `<span style="color: green; font-size: 12px;">✔ Concluído</span>`}
-                        <button class="btn-action btn-cancel" onclick="appMed.remover('${data}', ${index})">Excluir</button>
-                    </td>
-                `;
-                this.tabela.appendChild(tr);
-            });
-        });
-
-        if (this.tabela.innerHTML === '') {
-            this.tabela.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">Nenhum agendamento para este período.</td></tr>';
-        }
-    }
-
-    finalizar(data, index) {
-        let agenda = this.getDados();
-        agenda[data][index].concluido = true;
-        localStorage.setItem('agenda', JSON.stringify(agenda));
-        this.carregarAgenda();
-    }
-
-    remover(data, index) {
-        if(confirm("Tem certeza que deseja remover este agendamento?")) {
-            let agenda = this.getDados();
-            agenda[data].splice(index, 1);
-            if(agenda[data].length === 0) delete agenda[data];
-            localStorage.setItem('agenda', JSON.stringify(agenda));
-            this.carregarAgenda();
-        }
-    }
-
-    limparFiltro() {
-        this.filtro.value = '';
-        this.carregarAgenda();
     }
 
     iniciarRelogio() {

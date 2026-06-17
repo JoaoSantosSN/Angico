@@ -432,7 +432,7 @@ if($_SESSION['logado_cli']){?>
     function cupomfiscal() {
         if (carrinho.length === 0) return alert("Carrinho vazio!");
         localStorage.setItem('dadosCompra', JSON.stringify(carrinho));
-        window.location.href = "EmissaoFiscal.php";
+        window.location.href = "emitirCompra.php";
     }
 
     document.addEventListener('DOMContentLoaded', () => {
